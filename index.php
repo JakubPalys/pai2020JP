@@ -1,15 +1,13 @@
 <?php
-require_once 'src/controllers/AppController.php';
 
+require 'Routing.php';
 
-$path = $_SERVER['REQUEST_URI'];
+$path = trim($_SERVER['REQUEST_URI'], '/');
+$path = parse_url( $path, PHP_URL_PATH);
 
-var_dump($path);
+Router::get('', 'DefaultController');
+Router::get('projects', 'DefaultController');
+Router::post('login', 'SecurityController');
+Router::post('addProject', 'ProjectController');
 
-if ($path == '/dashboard') {
-    $controller = new AppController();
-    $controller->render('dashboard');
-}
-else {
-    echo 'Hi there students 👋';
-}
+Router::run($path);
